@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 class GiftPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _GiftPageState extends State<GiftPage> {
 
   Future<void> fetchPromotions() async {
     try {
-      final res = await http.get(Uri.parse("http://localhost:3000/promotions-with-items"));
+      final res = await http.get(Uri.parse("${dotenv.env['APIURLKEY']}/promotions-with-items"));
       if (res.statusCode == 200) {
         final allPromotions = jsonDecode(res.body);
         final now = DateTime.now();

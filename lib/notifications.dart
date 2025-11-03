@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NotificationPage extends StatefulWidget {
   final Map customer; // thông tin khách đã đăng nhập
@@ -25,7 +26,7 @@ class _NotificationPageState extends State<NotificationPage> {
     setState(() => loading = true);
     try {
       final res = await http.get(
-        Uri.parse("http://localhost:3000/customers/${widget.customer["id_cus"]}/orders"),
+        Uri.parse("${dotenv.env['APIURLKEY']}/customers/${widget.customer["id_cus"]}/orders"),
       );
       if (res.statusCode == 200) {
         setState(() {
@@ -44,7 +45,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Future<void> fetchOrderDetails(int orderId) async {
     try {
       final res = await http.get(
-        Uri.parse("http://localhost:3000/customers/${widget.customer["id_cus"]}/orders/$orderId"),
+        Uri.parse("${dotenv.env['APIURLKEY']}/customers/${widget.customer["id_cus"]}/orders/$orderId"),
       );
       if (res.statusCode == 200) {
         final order = json.decode(res.body);

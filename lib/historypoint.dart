@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HistoryPointPage extends StatefulWidget {
   final Map customer;
@@ -24,7 +25,7 @@ class _HistoryPointPageState extends State<HistoryPointPage> {
     setState(() => loading = true);
     try {
       final res = await http.get(
-        Uri.parse("http://localhost:3000/customers/${widget.customer["id_cus"]}/orders"),
+        Uri.parse("${dotenv.env['APIURLKEY']}/customers/${widget.customer["id_cus"]}/orders"),
       );
       if (res.statusCode == 200) {
         setState(() {

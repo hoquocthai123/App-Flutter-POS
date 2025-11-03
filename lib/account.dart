@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AccountPage extends StatefulWidget {
   final Map customer;
@@ -36,7 +37,7 @@ class _AccountPageState extends State<AccountPage> {
 
     try {
       final apiUrl =
-          "http://localhost:3000/customers/${widget.customer["id_cus"]}";
+          "${dotenv.env['APIURLKEY']}/customers/${widget.customer["id_cus"]}";
 
       final res = await http.put(
         Uri.parse(apiUrl),

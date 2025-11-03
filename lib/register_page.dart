@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Homepage.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
@@ -40,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> fetchProvinces() async {
     try {
-      final res = await http.get(Uri.parse('http://localhost:3000/api/provinces'));
+      final res = await http.get(Uri.parse('${dotenv.env['APIURLKEY']}/api/provinces'));
       if (res.statusCode == 200) {
         final List<dynamic> data = jsonDecode(res.body);
         setState(() {
@@ -55,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> fetchDistricts(String provinceCode) async {
     try {
       final res = await http.get(
-        Uri.parse('http://localhost:3000/api/provinces/$provinceCode/communes'),
+        Uri.parse('${dotenv.env['APIURLKEY']}/api/provinces/$provinceCode/communes'),
       );
       if (res.statusCode == 200) {
         final List<dynamic> data = jsonDecode(res.body);
@@ -72,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<bool> checkEmailExists(String email) async {
     try {
-      final res = await http.get(Uri.parse('http://localhost:3000/customers/check-email?email=$email'));
+      final res = await http.get(Uri.parse('${dotenv.env['APIURLKEY']}/customers/check-email?email=$email'));
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         return data['exists'] ?? false;
@@ -109,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     try {
-      const otpApiUrl = "http://localhost:3000/send-otp";
+      final otpApiUrl = "${dotenv.env['APIURLKEY']}/send-otp";
       final otpRes = await http.post(
         Uri.parse(otpApiUrl),
         headers: {"Content-Type": "application/json"},
@@ -158,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final fullAddress = '$wardText, $selectedDistrictName, $selectedProvinceName'.trim();
 
     try {
-      const apiUrl = "http://localhost:3000/customers";
+      final apiUrl = "${dotenv.env['APIURLKEY']}/customers";
       final phone = _phoneController.text.trim();
       final id = phone.startsWith('0') ? phone.substring(1) : phone;
 

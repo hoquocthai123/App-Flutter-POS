@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Homepage.dart';
 import 'register_page.dart';
 
@@ -35,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       // Kiểm tra email có tồn tại trong hệ thống không
-      const apiUrl = "http://localhost:3000/customers";
+      final apiUrl = "${dotenv.env['APIURLKEY']}/customers";
       final checkEmailRes = await http.get(Uri.parse(apiUrl));
       
       if (checkEmailRes.statusCode == 200) {
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         }
 
         // Nếu email tồn tại, tiếp tục gửi OTP
-        const otpApiUrl = "http://localhost:3000/send-otp";
+        final otpApiUrl = "${dotenv.env['APIURLKEY']}/send-otp";
         final otpRes = await http.post(
           Uri.parse(otpApiUrl),
           headers: {"Content-Type": "application/json"},
@@ -107,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      const apiUrl = "http://localhost:3000/customers";
+      final apiUrl = "${dotenv.env['APIURLKEY']}/customers";
       final res = await http.get(Uri.parse(apiUrl));
       
       if (res.statusCode == 200) {
