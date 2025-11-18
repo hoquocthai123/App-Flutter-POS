@@ -380,7 +380,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 enabled: districts.isNotEmpty,
                                 items: districts.map((d) => d['name']?.toString() ?? '').toList(),
                                 selectedItem: selectedDistrictName,
-                                dropdownBuilder: (context, selectedItem) => Text(selectedItem ?? 'Chọn Quận/Huyện'),
+                                dropdownBuilder: (context, selectedItem) => Text(selectedItem ?? 'Chọn Xã/Phường'),
                                 popupProps: PopupProps<String>.menu(
                                   showSearchBox: true,
                                   searchFieldProps: TextFieldProps(

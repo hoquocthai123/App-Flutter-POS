@@ -33,6 +33,9 @@ class _GiftPageState extends State<GiftPage> {
   }
 
   Future<void> fetchPromotions() async {
+    setState(() {
+      loading = true;
+    });
     try {
       final res = await http.get(Uri.parse("${dotenv.env['APIURLKEY']}/promotions-with-items"));
       if (res.statusCode == 200) {
@@ -69,6 +72,22 @@ class _GiftPageState extends State<GiftPage> {
           title: const Text("🎁 Khuyến mãi & Quà tặng"),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: () => fetchPromotions(),
+            ),
+          ],
+          bottom: loading
+              ? PreferredSize(
+                  preferredSize: const Size.fromHeight(4.0),
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.blue[200],
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                )
+              : null,
         ),
         body: loading
             ? const Center(child: CircularProgressIndicator())

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HistoryPointPage extends StatefulWidget {
@@ -14,6 +15,16 @@ class HistoryPointPage extends StatefulWidget {
 class _HistoryPointPageState extends State<HistoryPointPage> {
   List orders = [];
   bool loading = true;
+
+  String formatDate(String? dateStr) {
+    if (dateStr == null) return "";
+    try {
+      final date = DateTime.parse(dateStr);
+      return DateFormat('dd/MM/yyyy').format(date);
+    } catch (e) {
+      return dateStr; // fallback nếu parse lỗi
+    }
+  }
 
   @override
   void initState() {
@@ -111,7 +122,7 @@ class _HistoryPointPageState extends State<HistoryPointPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(height: 4),
-                                    Text("Ngày: ${order["created_at"]}"),
+                                    Text("Ngày: ${formatDate(order["created_at"])}"),
                                     Text("Tổng tiền: ${order["tongtien"]} đ"),
                                   ],
                                 ),
